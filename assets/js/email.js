@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{let e=document.getElementById("CONTACT_TIMEZONE");if(e)try{let t=Intl.DateTimeFormat().resolvedOptions().timeZone;t&&(e.value=t)}catch(n){console.warn("Unable to detect contact timezone.",n)}});
