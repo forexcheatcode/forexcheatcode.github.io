@@ -776,6 +776,194 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="assets/js/main.js" charset="UTF-8"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const form = document.getElementById("sib-form");
+  const timezoneField = document.getElementById("CONTACT_TIMEZONE");
+
+  if (!form) {
+    return;
+  }
+
+
+  /* =====================================================
+     CONTACT TIMEZONE
+  ===================================================== */
+
+  if (timezoneField) {
+
+    try {
+
+      const timezone =
+        Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (timezone) {
+        timezoneField.value = timezone;
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "Unable to detect contact timezone."
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     FORM SUBMIT UI
+     
+     Brevo's own main.js remains responsible for:
+     - validation
+     - reCAPTCHA v3
+     - submission
+     - success/error handling
+  ===================================================== */
+
+  form.addEventListener("submit", function () {
+
+    const button =
+      form.querySelector(".newsletter-submit");
+
+    if (!button) {
+      return;
+    }
+
+
+    const buttonText =
+      button.querySelector(".newsletter-button-text");
+
+    const loader =
+      button.querySelector(".newsletter-loader");
+
+    const arrow =
+      button.querySelector(".newsletter-arrow");
+
+
+    /* Loading state */
+
+    if (buttonText) {
+      buttonText.textContent = "SUBMITTING...";
+    }
+
+    if (loader) {
+      loader.style.display = "inline-flex";
+    }
+
+    if (arrow) {
+      arrow.style.display = "none";
+    }
+
+
+    /*
+      Do NOT disable the form here.
+
+      Brevo's JavaScript needs to be able to
+      complete its validation and submission.
+    */
+
+  });
+
+
+  /* =====================================================
+     OBSERVE BREVO SUCCESS / ERROR MESSAGES
+  ===================================================== */
+
+  const successMessage =
+    document.getElementById("success-message");
+
+  const errorMessage =
+    document.getElementById("error-message");
+
+
+  function resetButton() {
+
+    const button =
+      form.querySelector(".newsletter-submit");
+
+    if (!button) {
+      return;
+    }
+
+    const buttonText =
+      button.querySelector(".newsletter-button-text");
+
+    const loader =
+      button.querySelector(".newsletter-loader");
+
+    const arrow =
+      button.querySelector(".newsletter-arrow");
+
+
+    if (buttonText) {
+      buttonText.textContent = "GET 3 FREE SETUPS";
+    }
+
+    if (loader) {
+      loader.style.display = "none";
+    }
+
+    if (arrow) {
+      arrow.style.display = "inline-block";
+    }
+
+  }
+
+
+  if (successMessage) {
+
+    const observer =
+      new MutationObserver(function () {
+
+        const visible =
+          window.getComputedStyle(successMessage).display !== "none";
+
+        if (visible) {
+          resetButton();
+        }
+
+      });
+
+    observer.observe(
+      successMessage,
+      {
+        attributes: true,
+        attributeFilter: ["style", "class"]
+      }
+    );
+
+  }
+
+
+  if (errorMessage) {
+
+    const observer =
+      new MutationObserver(function () {
+
+        const visible =
+          window.getComputedStyle(errorMessage).display !== "none";
+
+        if (visible) {
+          resetButton();
+        }
+
+      });
+
+    observer.observe(
+      errorMessage,
+      {
+        attributes: true,
+        attributeFilter: ["style", "class"]
+      }
+    );
+
+  }
+
+});
+</script>
     <script src="assets/js/email.js" charset="UTF-8"></script>
     <script>
       window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
