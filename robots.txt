@@ -1,0 +1,7 @@
+# Forex Cheat Code
+# https://forexcheatcode.github.io/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://forexcheatcode.github.io/sitemap.xml
